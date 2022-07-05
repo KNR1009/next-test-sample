@@ -1,16 +1,21 @@
 import type { NextPage } from "next";
 // components
-import { SearchForm } from "../components/SearchForm";
+import { Cards } from "../components/Cards";
+
+const userInfos = [
+  { id: 1, name: "Tom" },
+  {
+    id: 2,
+    name: "Mary",
+  },
+  {
+    id: 3,
+    name: "Bob",
+  },
+];
 
 const Home: NextPage = () => {
-  const onSubmit = (value: string) => {
-    console.log(value);
-  };
-  return (
-    <div>
-      <SearchForm onSubmit={onSubmit} />
-    </div>
-  );
+  return <Cards userInfos={userInfos} />;
 };
 
 export default Home;
