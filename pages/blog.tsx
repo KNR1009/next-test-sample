@@ -12,22 +12,22 @@ type Post = {
 
 const BlogPage: NextPage = () => {
   // 取得したブログデータを格納するstate
-  const [postDates, setPostDates] = useState<Post[]>([]);
+  const [postDate, setPostDate] = useState<Post>();
   // 外部APIからブログデータを取得
-  const getPosts = async (): Promise<Post[]> => {
+  const getPost = async (): Promise<Post> => {
     const response = await axios.get(
-      "https://jsonplaceholder.typicode.com/posts"
+      "https://jsonplaceholder.typicode.com/posts/1"
     );
     return response.data;
   };
   // レンダリング時にAPIコール関数を実行し取得したデータでstateを更新
   useEffect(() => {
     try {
-      const getPostDates = async () => {
-        const result = await getPosts();
-        setPostDates(result);
+      const getDate = async () => {
+        const result = await getPost();
+        setPostDate(result);
       };
-      getPostDates();
+      getDate();
     } catch (e) {
       console.log(e);
     }
@@ -35,16 +35,12 @@ const BlogPage: NextPage = () => {
 
   return (
     <div>
-      {postDates.length === 0 ? (
+      {!postDate ? (
         <p>ローディング中</p>
       ) : (
-        <>
-          {postDates.map((i) => (
-            <p key={i.id}>
-              {i.id}: {i.body}
-            </p>
-          ))}
-        </>
+        <p>
+          記事ID{postDate.id}:{postDate.title}
+        </p>
       )}
     </div>
   );
