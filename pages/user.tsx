@@ -29,7 +29,7 @@ const UserPage: NextPage = () => {
       };
       setUser(userInfo);
     } catch (e) {
-      setError("Request failed ");
+      setError("Request failed");
     }
   };
 
@@ -42,7 +42,7 @@ const UserPage: NextPage = () => {
         </>
       )}
       {user && <h3>名前: {user.name}</h3>}
-      {error && <p date-testid="error">{error}</p>}
+      {error && <p data-testid="error">{error}</p>}
     </div>
   );
 };

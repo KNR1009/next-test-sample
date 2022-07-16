@@ -27,12 +27,27 @@ afterEach(() => {
 afterAll(() => server.close());
 
 describe("mocking API", () => {
-  it("[Fetch success]Should display fetched data correctly and button disable", async () => {
+  it("Fetch success Should display fetched data correctly", async () => {
     render(<UserPage />);
-    await userEvent.click(screen.getByRole("button"));
-    console.log((await screen.findByRole("heading")).textContent);
+    userEvent.click(screen.getByRole("button"));
     expect((await screen.findByRole("heading")).textContent).toEqual(
       "名前: Leanne Graham dummy"
+    );
+  });
+  it("Fetch failure Should display error message", async () => {
+    // error用のサーバーを作成
+    server.use(
+      rest.get(
+        "https://jsonplaceholder.typicode.com/users/1",
+        (_, res, ctx) => {
+          return res(ctx.status(404));
+        }
+      )
+    );
+    render(<UserPage />);
+    userEvent.click(screen.getByRole("button"));
+    expect((await screen.findByTestId("error")).textContent).toEqual(
+      "Request failed"
     );
   });
 });
