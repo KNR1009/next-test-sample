@@ -21,7 +21,6 @@ const UserPage: NextPage = () => {
         "https://jsonplaceholder.typicode.com/users/1"
       );
       // 必要な情報だけ抽出する
-
       const userInfo = {
         id: response.data.id,
         name: response.data.name,
@@ -42,8 +41,8 @@ const UserPage: NextPage = () => {
           <button onClick={getUser}>ユーザー情報を取得</button>
         </>
       )}
-      {user && <p>名前: {user.name}</p>}
-      {error && <p>{error}</p>}
+      {user && <h3>名前: {user.name}</h3>}
+      {error && <p date-testid="error">{error}</p>}
     </div>
   );
 };
