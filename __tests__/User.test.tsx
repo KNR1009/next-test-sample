@@ -34,21 +34,4 @@ describe("mocking API", () => {
       "名前: Leanne Graham dummy"
     );
   });
-  it("Fetch failure Should display error message", async () => {
-    // error用のサーバーを作成
-    server.use(
-      rest.get(
-        "https://jsonplaceholder.typicode.com/users/1",
-        (_, res, ctx) => {
-          return res(ctx.status(404));
-        }
-      )
-    );
-    render(<UserPage />);
-    userEvent.click(screen.getByRole("button"));
-    expect((await screen.findByTestId("error")).textContent).toEqual(
-      "Request failed"
-    );
-    expect(screen.queryByRole("heading")).toBeNull();
-  });
 });
