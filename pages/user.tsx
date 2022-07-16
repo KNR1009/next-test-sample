@@ -13,42 +13,37 @@ type User = {
 const UserPage: NextPage = () => {
   // 取得したブログデータを格納するstate
   const [user, setUser] = useState<User>();
+  const [error, setError] = useState<string>("");
   // 外部APIからブログデータを取得
-  const getUser = async (): Promise<User> => {
-    const response = await axios.get(
-      "https://jsonplaceholder.typicode.com/users/1"
-    );
-    // 必要な情報だけ抽出する
-
-    return {
-      id: response.data.id,
-      name: response.data.name,
-      username: response.data.username,
-      email: response.data.email,
-    };
-  };
-  // レンダリング時にAPIコール関数を実行し取得したデータでstateを更新
-  useEffect(() => {
+  const getUser = async () => {
     try {
-      const getUserDate = async () => {
-        const result = await getUser();
-        setUser(result);
+      const response = await axios.get(
+        "https://jsonplaceholder.typicode.com/users/1"
+      );
+      // 必要な情報だけ抽出する
+
+      const userInfo = {
+        id: response.data.id,
+        name: response.data.name,
+        username: response.data.username,
+        email: response.data.email,
       };
-      getUserDate();
+      setUser(userInfo);
     } catch (e) {
-      console.log(e);
+      setError("Request failed ");
     }
-  }, []);
+  };
 
   return (
     <div>
-      {/* {!postDate ? (
-        <p>ローディング中</p>
-      ) : (
-        <p>
-          記事ID{postDate.id}:{postDate.title}
-        </p>
-      )} */}
+      {!user && !error && (
+        <>
+          <p>データはありません</p>
+          <button onClick={getUser}>ユーザー情報を取得</button>
+        </>
+      )}
+      {user && <p>名前: {user.name}</p>}
+      {error && <p>{error}</p>}
     </div>
   );
 };
