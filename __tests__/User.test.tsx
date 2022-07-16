@@ -49,5 +49,6 @@ describe("mocking API", () => {
     expect((await screen.findByTestId("error")).textContent).toEqual(
       "Request failed"
     );
+    expect(screen.queryByRole("heading")).toBeNull();
   });
 });
